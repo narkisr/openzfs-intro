@@ -1,0 +1,260 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>OpenZFS Intro</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- <link rel="stylesheet" href="lib/styles/github&#45;gist.css"> -->
+    <!-- <link rel="stylesheet" href="lib/styles/docco.css"> -->
+    <!-- <link rel="stylesheet" href="lib/styles/github.css"> -->
+
+
+    <!-- Printing and PDF exports -->
+    <script>
+	var link = document.createElement( 'link' );
+	link.rel = 'stylesheet';
+	link.type = 'text/css';
+	link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+	document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+	<div class="slides">
+	  <section id="title">
+	    <h1>OpenZFS Intro</h1>
+	    <p>
+		<small>Talk by <a href="https://narkisr.com">Ronen Narkis</a> / <a href="http://twitter.com/narkisr">@narkisr</a></small>
+		<small><a href="#/themes">settings</a></small>
+	    </p>
+	  </section>
+
+	  <section id="Intro">
+	    <h2>About</h2>
+	    <p>Originally developed at Sun, Opensource since 2005 </p>
+	    <p>Ported to FreeBSD, Linux, OSx (Windows?) </p>
+	    <p>A volume manager and a Filesystem</p>
+	  </section>
+
+
+	  <section id= "strategy">
+	    <h2>The 3-2-1 backup rule</h2>
+	    <p class="fragment">3 copies of your data</p>
+	    <p class="fragment">2 media formats </p>
+	    <p class="fragment">1 off site</p>
+	  </section>
+
+
+	  <section id="shorts">
+	    <h2>HDD Failure (Backblaze)</h2>
+	    <p>
+		<q cite="https://www.backblaze.com/blog/hard-drive-failure-rates-q1-2017/"> &ldquo;The annualized failure rate for the drive models listed above is 2.07% &rdquo;</q>
+	    </p>
+	  </section>
+
+	  <section id="Features">
+	    <h2>Features (partial) list</h2>
+	    <p class="fragment">COW</p>
+	    <p class="fragment">Checksummed and self healing</p>
+	    <p class="fragment">Compression</p>
+	    <p class="fragment">Redundancy</p>
+	    <p class="fragment">Smart caching</p>
+	  </section>
+
+	  <section>
+	    <h2>Pool</h2>
+	    <p>Collection of VDEVs</p>
+	    <p>VDEV is mirror/Raid/Single disk</p>
+	    <p>Writes distributed evenly among VDEVs</p>
+	    <p>Divided into datasets</p>
+	  </section>
+
+
+       <section>
+	    <h2>Striped VDEV</h2>
+	    <p class="fragment">No redundancy </p>
+	    <p class="fragment">Fastest performance</p>
+	  </section>
+
+        <section>
+	    <h2>Mirror VDEV</h2>
+	    <p class="fragment">Pair of disks</p>
+	    <p class="fragment">1 Drive can die</p>
+	    <p class="fragment">Slow(er) write</p>
+	    <p class="fragment">Fast READ</p>
+	    <p class="fragment">Easier to expand</p>
+	  </section>
+
+
+        <section>
+	    <h2>RAIDZ VDEV</h2>
+	    <p class="fragment">RAIDZ 1/2/3 (parity disks) </p>
+	    <p class="fragment">More CPU time (parity)</p>
+	    <p class="fragment">Better storage efficiency</p>
+	  </section>
+
+	  <section>
+	    <a href="./gifs/pool.gif">
+		<img src="./gifs/pool.gif" alt="" width="1500px" height="500px">
+	    </a>
+	  </section>
+
+	  <section>
+	    <h2> Dataset</h2>
+	    <p class="fragment">Partitioning the pool</p>
+	    <p class="fragment">ZFS properties (mount point/compression/quota etc..)</p>
+	    <p class="fragment">snapshot-able</p>
+	    <p class="fragment">Create as many as you want (per VM, etc..)</p>
+	  </section>
+
+
+	  <section>
+	    <a href="./gifs/dataset.gif">
+		<img src="./gifs/dataset.gif" alt="" width="1500px" height="500px">
+	    </a>
+	  </section>
+
+	  <section>
+	    <h2>Snapshots</h2>
+	    <p class="fragment">Cheap to create</p>
+	    <p class="fragment">Can be mounted</p>
+	    <p class="fragment">Sent/Receive</p>
+	    <p class="fragment">Not a backup!</p>
+	  </section>
+
+        <section>
+	    <a href="./gifs/snapshots.gif">
+		<img src="./gifs/snapshots.gif" alt="" width="1500px" height="500px">
+	    </a>
+	  </section>
+
+        <section>
+	    <a href="./gifs/send.gif">
+		<img src="./gifs/send.gif" alt="" width="1500px" height="500px">
+	    </a>
+	  </section>
+
+        <section id="resilvering">
+	    <h2>Resilvering</h2>
+	    <p>The process of HDD replacement</p>
+	    <p>Fault fix or growing VDEV</p>
+	    <p>The pool continues to function </p>
+	    <p>Might moves to a degraded state </p>
+	  </section>
+
+	  <section>
+	    <a href="./gifs/silver.gif">
+		<img src="./gifs/silver.gif" alt="" width="1500px" height="500px">
+	    </a>
+	  </section>
+
+        <section id="arc">
+	    <h3>Adaptive replacement cache (ARC)</h3>
+	    <p>Created by IBM</p>
+	    <p>Page level cache</p>
+	    <p>MRU and MFU combined </p>
+	    <p>Self Adjusting (shrinking/growing)</p>
+	    <p>Persistent (L2ARC)</p>
+	  </section>
+
+	  <section>
+	    <h2>OS selection</h2>
+	    <p class="fragment">Linux (Ubuntu)</p>
+	    <p class="fragment">FreeBSD (Ubuntu)</p>
+	    <p class="fragment">FreeNAS</p>
+	    <p class="fragment">Omnios, SmartOS (Solaris)</p>
+	  </section>
+
+	  <section>
+	    <h2>Picking the "right" hardware</h2>
+	    <p class="fragment">ECC vs Non ECC RAM</p>
+	    <p class="fragment">Disk controllers (No RAID!)</p>
+	    <p class="fragment">Disks (NAS vs Consumer)</p>
+	    <p class="fragment">How much RAM?</p>
+	    <p class="fragment">CPU?</p>
+	  </section>
+
+	  <section id="hardware-high-end">
+	    <h2>Hardware (high end)</h2>
+	    <p><a href="https://www.amazon.com/Fractal-Design-Mini-ITX-Computer-FD-CA-NODE-304-BL/dp/B009LHF4FO">Node 304</a></p>
+	    <p><a href="https://www.amazon.com/Supermicro-Mini-ITX-1600MHz-Motherboard-X10SDV-TLN4F/dp/B010W32T62">X10SDV-TLN4F-O</a></p>
+	    <p><a href="https://www.amazon.com/Crucial-PC4-2133-288-Pin-CT4K16G4RFD4213-CT4C16G4RFD4213/dp/B00KUSMVVS/">Crucial ECC RAM 64GB Kit</a></p>
+	    <p><a href="https://www.amazon.com/dp/B073XDWMRT/ref=twister_B076BD7M3R?_encoding=UTF8&psc=1">HGST 10GB</a></p>
+	    <p><a href="https://www.amazon.com/Samsung-850-EVO-2-5-Inch-MZ-75E120B/dp/B00OAJ5N6I/">120GB Samsung EVO</a></p>
+	    <p> <a href="https://www.amazon.com/Silverstone-Nightjar-Completely-Acoustics-NJ520/dp/B00KHO0IG0">Silverstone Tek Nightjar</a></p>
+	  </section>
+
+	  <section id="hardare-low-end">
+	    <h2>Hardware (low end)</h2>
+	    <p><a href="https://www.amazon.com/Fractal-Design-Mini-ITX-Computer-FD-CA-NODE-304-BL/dp/B009LHF4FO">Node 304</a></p>
+	    <p><a href="https://www.amazon.com/GIGABYTE-Durable-GA-Z170N-WIFI-Desktop-Motherboard/dp/B015IOOJ54">GIGABYTE GA-Z170N-WIFI</a></p>
+	    <p><a href="https://www.amazon.com/Crucial-PC4-17000-Unbuffered-288-Pin-Memory/dp/B00MMLUYQK/">Crucial 16GB Kit</a></p>
+	    <p><a href="https://www.amazon.com/HGST-Deskstar-7200rpm-128MB-Internal/dp/B01N7YOH4P/">HGST 4GB</a></p>
+	    <p><a href="https://www.amazon.com/Samsung-850-EVO-2-5-Inch-MZ-75E120B/dp/B00OAJ5N6I/">120GB Samsung EVO</a></p>
+	    <p><a href="https://www.amazon.com/Silverstone-Nightjar-Completely-Acoustics-NJ520/dp/B00KHO0IG0">Silverstone Tek Nightjar</a></p>
+	  </section>
+
+        <section>
+	    <h2>Resources </h2>
+	    <p> <a href="https://www.michaelwlucas.com/os/fmzfs">ZFS mastery</a></p>
+	    <p> <a href="https://www.michaelwlucas.com/os/fmaz">Advanced ZFS</a></p>
+	    <p> <a href="https://www.freebsd.org/doc/handbook/zfs.html">FreeBSD Handbook</a></p>
+	    <p> <a href="https://pthree.org/category/zfs/">Aaron Toponce Blog</a></p>
+	    <p> <a href="https://github.com/zfsonlinux/zfs/wiki">ZFS on Linux Wiki</a></p>
+	  </section>
+
+
+	  <section>
+	    <h2> Questions ?</h2>
+	    <p> Check <a href="https://github.com/narkisr">https://github.com/narkisr</a> </p>
+	    <p> <a href="https://twitter.com/narkisr">@narkisr</a></p>
+	  </section>
+
+	  <section id="themes">
+	    <h2>Settings</h2>
+	    <p>
+		Select theme: <br>
+		<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
+		<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
+		<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
+		<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
+		<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
+		<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
+		<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
+		<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
+		<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
+		<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
+		<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
+		<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
+	    </p>
+	  </section>
+	</div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+	// More info about config & dependencies:
+	// - https://github.com/hakimel/reveal.js#configuration
+	// - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+slideNumber: true,
+history: true,
+dependencies: [
+{ src: 'plugin/markdown/marked.js' },
+{ src: 'plugin/markdown/markdown.js' },
+{ src: 'plugin/notes/notes.js', async: true },
+{ src: 'plugin/highlight/highlight.js', async: false, callback: function() { hljs.initHighlightingOnLoad(); } }
+]
+});
+    </script>
+  </body>
+</html>

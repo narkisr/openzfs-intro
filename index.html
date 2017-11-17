@@ -11,10 +11,6 @@
 
     <!-- Theme used for syntax highlighting of code -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
-    <!-- <link rel="stylesheet" href="lib/styles/github&#45;gist.css"> -->
-    <!-- <link rel="stylesheet" href="lib/styles/docco.css"> -->
-    <!-- <link rel="stylesheet" href="lib/styles/github.css"> -->
-
 
     <!-- Printing and PDF exports -->
     <script>
@@ -29,7 +25,7 @@
     <div class="reveal">
 	<div class="slides">
 	  <section id="title">
-	    <h1>OpenZFS Intro</h1>
+	    <h1>OpenZFS</h1>
 	    <p>
 		<small>Talk by <a href="https://narkisr.com">Ronen Narkis</a> / <a href="http://twitter.com/narkisr">@narkisr</a></small>
 		<small><a href="#/themes">settings</a></small>
@@ -38,8 +34,8 @@
 
 	  <section id="Intro">
 	    <h2>About</h2>
-	    <p>Originally developed at Sun, Opensource since 2005 </p>
-	    <p>Ported to FreeBSD, Linux, OSx (Windows?) </p>
+	    <p>Originally developed at Sun, opensource since 2005 </p>
+	    <p>Ported to FreeBSD, Linux, OSx (Windows maybe?) </p>
 	    <p>A volume manager and a Filesystem</p>
 	  </section>
 
@@ -52,15 +48,16 @@
 	  </section>
 
 
-	  <section id="shorts">
-	    <h2>HDD Failure (Backblaze)</h2>
+	  <section id="backblaze">
+	    <h2>HDD Failures (Backblaze)</h2>
 	    <p>
-		<q cite="https://www.backblaze.com/blog/hard-drive-failure-rates-q1-2017/"> &ldquo;The annualized failure rate for the drive models listed above is 2.07% &rdquo;</q>
+		<q cite="https://www.backblaze.com/blog/hard-drive-failure-rates-q1-2017/"> &ldquo;annualized failure rate for the drive models listed is 2.07% &rdquo;</q>
 	    </p>
+	    <img src="./img/backblaze-fails.webp" alt="" width="800px" height="400px"/>
 	  </section>
 
 	  <section id="Features">
-	    <h2>Features (partial) list</h2>
+	    <h2>Features list (partial)</h2>
 	    <p class="fragment">COW</p>
 	    <p class="fragment">Checksummed and self healing</p>
 	    <p class="fragment">Compression</p>
@@ -101,6 +98,7 @@
 	  </section>
 
 	  <section>
+	    <h2> Pool creation</h2>
 	    <a href="./gifs/pool.gif">
 		<img src="./gifs/pool.gif" alt="" width="1500px" height="500px">
 	    </a>
@@ -116,10 +114,20 @@
 
 
 	  <section>
+	    <h2> Dataset creation </h2>
 	    <a href="./gifs/dataset.gif">
 		<img src="./gifs/dataset.gif" alt="" width="1500px" height="500px">
 	    </a>
 	  </section>
+
+        <section>
+	    <h2>Self healing </h2>
+	    <p class="fragment">Checksum per block on write</p>
+	    <p class="fragment">Verified on read</p>
+	    <p class="fragment">Restored on failure (depending on redundancy)</p>
+	    <p class="fragment">No need for FSCK (We can scrub)</p>
+	  </section>
+
 
 	  <section>
 	    <h2>Snapshots</h2>
@@ -130,12 +138,14 @@
 	  </section>
 
         <section>
+          <h2> Snapshot creation </h2>
 	    <a href="./gifs/snapshots.gif">
 		<img src="./gifs/snapshots.gif" alt="" width="1500px" height="500px">
 	    </a>
 	  </section>
 
         <section>
+          <h2> Send and receive</h2>
 	    <a href="./gifs/send.gif">
 		<img src="./gifs/send.gif" alt="" width="1500px" height="500px">
 	    </a>
@@ -143,8 +153,8 @@
 
         <section id="resilvering">
 	    <h2>Resilvering</h2>
-	    <p>The process of HDD replacement</p>
-	    <p>Fault fix or growing VDEV</p>
+	    <p>The process of replacing an HDD</p>
+	    <p>Replacing faulty or growing a VDEV</p>
 	    <p>The pool continues to function </p>
 	    <p>Might moves to a degraded state </p>
 	  </section>

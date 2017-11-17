@@ -32,22 +32,6 @@
 	    </p>
 	  </section>
 
-	  <section id="Intro">
-	    <h2>About</h2>
-	    <p>Originally developed at Sun, opensource since 2005 </p>
-	    <p>Ported to FreeBSD, Linux, OSx (Windows maybe?) </p>
-	    <p>A volume manager and a Filesystem</p>
-	  </section>
-
-
-	  <section id= "strategy">
-	    <h2>The 3-2-1 backup rule</h2>
-	    <p class="fragment">3 copies of your data</p>
-	    <p class="fragment">2 media formats </p>
-	    <p class="fragment">1 off site</p>
-	  </section>
-
-
 	  <section id="backblaze">
 	    <h2>HDD Failures (Backblaze)</h2>
 	    <p>
@@ -56,16 +40,34 @@
 	    <img src="./img/backblaze-fails.webp" alt="" width="800px" height="400px"/>
 	  </section>
 
-	  <section id="Features">
+
+	  <section id="strategy">
+	    <h2>The 3-2-1 backup rule</h2>
+	    <p class="fragment">3 copies of your data</p>
+	    <p class="fragment">2 media formats </p>
+	    <p class="fragment">1 off site</p>
+	  </section>
+
+
+	  <section id="Intro">
+	    <h2>ZFS</h2>
+	    <p>Originally developed at Sun, opensource since 2005 </p>
+	    <p>Ported to FreeBSD, Linux, OSx (Windows maybe?) </p>
+	    <p>A volume manager and a Filesystem</p>
+	    <p>Forked into OpenZFS in Sep 2013</p>
+	  </section>
+
+	  <section id="features">
 	    <h2>Features list (partial)</h2>
 	    <p class="fragment">COW</p>
+	    <p class="fragment">Volume Management </p>
 	    <p class="fragment">Checksummed and self healing</p>
-	    <p class="fragment">Compression</p>
-	    <p class="fragment">Redundancy</p>
+	    <p class="fragment">Compression/Dedup</p>
+	    <p class="fragment">Multiple Redundancy levels</p>
 	    <p class="fragment">Smart caching</p>
 	  </section>
 
-	  <section>
+	  <section id="pool">
 	    <h2>Pool</h2>
 	    <p>Collection of VDEVs</p>
 	    <p>VDEV is mirror/Raid/Single disk</p>
@@ -74,13 +76,13 @@
 	  </section>
 
 
-       <section>
+	  <section id="stripped">
 	    <h2>Striped VDEV</h2>
 	    <p class="fragment">No redundancy </p>
 	    <p class="fragment">Fastest performance</p>
 	  </section>
 
-        <section>
+	  <section id="mirror">
 	    <h2>Mirror VDEV</h2>
 	    <p class="fragment">Pair of disks</p>
 	    <p class="fragment">1 Drive can die</p>
@@ -90,42 +92,42 @@
 	  </section>
 
 
-        <section>
+	  <section id="raidz">
 	    <h2>RAIDZ VDEV</h2>
 	    <p class="fragment">RAIDZ 1/2/3 (parity disks) </p>
 	    <p class="fragment">More CPU time (parity)</p>
 	    <p class="fragment">Better storage efficiency</p>
 	  </section>
 
-	  <section>
+	  <section id="pool-creation">
 	    <h2> Pool creation</h2>
 	    <a href="./gifs/pool.gif">
 		<img src="./gifs/pool.gif" alt="" width="1500px" height="500px">
 	    </a>
 	  </section>
 
-	  <section>
+	  <section id="datasets">
 	    <h2> Dataset</h2>
 	    <p class="fragment">Partitioning the pool</p>
 	    <p class="fragment">ZFS properties (mount point/compression/quota etc..)</p>
-	    <p class="fragment">snapshot-able</p>
+	    <p class="fragment">Snapshot-able</p>
 	    <p class="fragment">Create as many as you want (per VM, etc..)</p>
 	  </section>
 
 
-	  <section>
+	  <section id="dataset-creation">
 	    <h2> Dataset creation </h2>
 	    <a href="./gifs/dataset.gif">
 		<img src="./gifs/dataset.gif" alt="" width="1500px" height="500px">
 	    </a>
 	  </section>
 
-        <section>
+	  <section id="self-healing">
 	    <h2>Self healing </h2>
-	    <p class="fragment">Checksum per block on write</p>
+	    <p class="fragment">Checksum per block on write (per VDEV)</p>
 	    <p class="fragment">Verified on read</p>
 	    <p class="fragment">Restored on failure (depending on redundancy)</p>
-	    <p class="fragment">No need for FSCK (We can scrub)</p>
+	    <p class="fragment">No need for an fsck (We can scrub)</p>
 	  </section>
 
 
@@ -137,21 +139,21 @@
 	    <p class="fragment">Not a backup!</p>
 	  </section>
 
-        <section>
-          <h2> Snapshot creation </h2>
+	  <section id="snapshot-creation">
+	    <h2> Snapshot creation </h2>
 	    <a href="./gifs/snapshots.gif">
 		<img src="./gifs/snapshots.gif" alt="" width="1500px" height="500px">
 	    </a>
 	  </section>
 
-        <section>
-          <h2> Send and receive</h2>
+	  <section id="sendnreceive">
+	    <h2> Send and receive</h2>
 	    <a href="./gifs/send.gif">
 		<img src="./gifs/send.gif" alt="" width="1500px" height="500px">
 	    </a>
 	  </section>
 
-        <section id="resilvering">
+	  <section id="resilvering">
 	    <h2>Resilvering</h2>
 	    <p>The process of replacing an HDD</p>
 	    <p>Replacing faulty or growing a VDEV</p>
@@ -159,13 +161,14 @@
 	    <p>Might moves to a degraded state </p>
 	  </section>
 
-	  <section>
+	  <section id="resilver-device">
+	    <h2>Replacing loops</h2>
 	    <a href="./gifs/silver.gif">
 		<img src="./gifs/silver.gif" alt="" width="1500px" height="500px">
 	    </a>
 	  </section>
 
-        <section id="arc">
+	  <section id="arc">
 	    <h3>Adaptive replacement cache (ARC)</h3>
 	    <p>Created by IBM</p>
 	    <p>Page level cache</p>
@@ -174,7 +177,8 @@
 	    <p>Persistent (L2ARC)</p>
 	  </section>
 
-	  <section>
+
+	  <section id="os">
 	    <h2>OS selection</h2>
 	    <p class="fragment">Linux (Ubuntu)</p>
 	    <p class="fragment">FreeBSD (Ubuntu)</p>
@@ -182,7 +186,7 @@
 	    <p class="fragment">Omnios, SmartOS (Solaris)</p>
 	  </section>
 
-	  <section>
+	  <section id="hardware">
 	    <h2>Picking the "right" hardware</h2>
 	    <p class="fragment">ECC vs Non ECC RAM</p>
 	    <p class="fragment">Disk controllers (No RAID!)</p>
@@ -211,7 +215,15 @@
 	    <p><a href="https://www.amazon.com/Silverstone-Nightjar-Completely-Acoustics-NJ520/dp/B00KHO0IG0">Silverstone Tek Nightjar</a></p>
 	  </section>
 
-        <section>
+	  <section id="arc">
+	    <h3>More features</h3>
+	    <p>ZVOLs (block devices)</p>
+	    <p>Boot environments</p>
+	    <p> NFS, SAMBA, iSCSI</p>
+	    <p></p>
+	  </section>
+
+	  <section id="resources">
 	    <h2>Resources </h2>
 	    <p> <a href="https://www.michaelwlucas.com/os/fmzfs">ZFS mastery</a></p>
 	    <p> <a href="https://www.michaelwlucas.com/os/fmaz">Advanced ZFS</a></p>
@@ -221,7 +233,7 @@
 	  </section>
 
 
-	  <section>
+	  <section id="questions">
 	    <h2> Questions ?</h2>
 	    <p> Check <a href="https://github.com/narkisr">https://github.com/narkisr</a> </p>
 	    <p> <a href="https://twitter.com/narkisr">@narkisr</a></p>

@@ -1,6 +1,6 @@
 # About
 
-An intro talk about ZFS, can be viewed [online](http://narkisr.github.io/openzfs-intro/index.html).
+An intro talk about OpenZFS, can be viewed [online](http://narkisr.github.io/openzfs-intro/index.html).
 
 # License
 
